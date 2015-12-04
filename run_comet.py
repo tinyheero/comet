@@ -203,7 +203,7 @@ def load_precomputed_scores(infile, mutations, subt):
 def printParameters(args, ks, finaltv):
     opts = vars(args)
     opts['total distance'] = finaltv
-    prefix = iter_num(args.output_prefix + '.para', args.num_iterations, ks, args.accelerator)
+    prefix = args.output_prefix + '.para'
     with open(prefix + '.json', 'w') as outfile:
         json.dump(opts, outfile)
 
@@ -317,7 +317,7 @@ def run( args ):
             row += [", ".join(sorted(d["genes"])), d["prob"], weight_func_mapping[d["num_tbls"]] ]
         tbl.append("\t".join(map(str, row)))
 
-    outputFile = "%s.tsv" % iter_num(args.output_prefix + '.sum', N*(runNum), ks, args.accelerator)
+    outputFile = args.output_prefix + '.sum.tsv'
     with open(outputFile, "w") as outfile: outfile.write( "\n".join(tbl) )
 
     return [ (S, results[S]["freq"], results[S]["total_weight"]) for S in collections ]
