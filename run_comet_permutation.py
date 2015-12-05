@@ -20,6 +20,8 @@ def get_parser():
                         help='Set the seed of the PRNG.')
     parser.add_argument('--parallel', default=False, action='store_true',
                         help='Use multiprocessing to run a job on each core.')
+    parser.add_argument('-p', '--num_proc', type=int, default=1,
+                        help='Specify number of processors to use if --parallel is set.')
     parser.add_argument('-np', '--num_permutations', required=True, type=int,
                         help='Number of permuted matrices to use.')
     parser.add_argument('--keep_temp_files', required=False, action='store_true', default=False,
@@ -122,7 +124,7 @@ def run( args ):
         arguments.append( permuteArgs )
 
     if args.parallel:
-        pool = mp.Pool(25)
+        pool = mp.Pool(args.num_proc)
         results = pool.map(runComet, arguments)
         pool.close()
         pool.join()
